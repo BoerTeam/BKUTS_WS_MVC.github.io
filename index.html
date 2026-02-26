@@ -2,13 +2,80 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>bkuts_MVC_WS Versiyon Listesi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BKUTS MVC WS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .version-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        .version-item {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .version-date {
+            color: #666;
+            font-size: 0.9em;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
-    <h1>Yayınlanan Sürümler</h1>
-    <ul>
-        <li><a href="./v1.0.0/index.html">Versiyon 1.0.0</a></li>
-        <li><a href="./v1.1.0/index.html">Versiyon 1.1.0 (Güncel)</a></li>
-    </ul>
+    <div class="container">
+        <h1>🚀 BKUTS MVC Web Services</h1>
+        <p>Uygulamanız hakkında bilgi...</p>
+        
+        <div class="version-section">
+            <h2>📦 Yayınlanan Versiyonlar</h2>
+            <div id="versions-container">
+                <p>Yükleniyor...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // releases.json dosyasından versiyonları yükle
+        fetch('releases.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('versions-container');
+                container.innerHTML = '';
+                
+                data.releases.forEach(release => {
+                    const div = document.createElement('div');
+                    div.className = 'version-item';
+                    div.innerHTML = `
+                        <strong>v${release.version}</strong>
+                        <span class="version-date">(${release.date})</span>
+                        <p>${release.description}</p>
+                        <a href="${release.download_url}" target="_blank">📥 İndir</a>
+                    `;
+                    container.appendChild(div);
+                });
+            })
+            .catch(error => console.error('Versiyonlar yüklenemedi:', error));
+    </script>
 </body>
 </html>
